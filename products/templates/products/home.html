@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul class="product-list">
+  {% for product in products %}
+  <li class="product-item">
+    <img src="{{ product.icon.url }}" alt="{{ product.title }} Icon" class="product-icon">
+    <div class="product-details" onclick="window.location='{% url 'detail' product.id %}';">
+      <div class="product-title">{{ product.title }}</div>
+      <div class="product-description">{{ product.summary }}</div>
+      <div class="comment-count">{{ product.comments_total }} commentaires</div> <!-- Affiche le nombre de commentaires -->
+    </div>
+    <button class="vote-button" onclick="document.getElementById('upvote-{{ product.id }}').submit();">
+      <div class="vote-triangle"></div>
+      <div class="vote-count">{{ product.votes_total }}</div>
+    </button>
+  </li>
+
+  <form id="upvote-{{ product.id }}" action="{% url 'upvote' product.id %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden">
+  </form>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Votez, créez, commentez.</h1>
+  
+  {% if error %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% endif %}
+
+  <form action="{% url 'signup' %}" method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" class="form-control" name="email" id="email" placeholder="Entrez votre email" required>
+      <div class="invalid-feedback">
+        Please enter a valid email address.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Nom d'utilisateur:</label>
+      <input type="text" class="form-control" name="username" id="username" placeholder="Choisissez un nom d'utilisateur" required>
+      <div class="invalid-feedback">
+        Please choose a username.
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label for="password1" class="form-label">Mot de passe:</label>
+      <input type="password" class="form-control" name="password1" id="password1" placeholder="Créez un mot de passe" required>
+      <div class="invalid-feedback">
+        Please enter a password.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password2" class="form-label">Confirmez votre mot de passe:</label>
+      <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirmez votre mot de passe" required>
+      <div class="invalid-feedback">
+        Please confirm your password.
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">S'inscrire maintenant</button>
+  </form>
+</div>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+{% endblock %}

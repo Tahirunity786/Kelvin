@@ -1,0 +1,114 @@
+<!-- In the <head> section -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti"></script>
+  
+  {% extends 'base.html' %}
+
+{% block content %}
+
+<div class="detail-container">
+  <div class="detail-header">
+    <div class="detail-logo">
+      <img src="{{ product.icon.url }}" alt="{{ product.title }} Icon" class="detail-logo-img">
+    </div>
+    <div class="detail-text-content">
+      <h1 class="detail-title">{{ product.title }}</h1>
+      <p class="detail-summary">{{ product.summary }}</p>
+    </div>
+    <div class="detail-action-buttons">
+      <a href="{{ product.url }}" class="button1 detail-visit-button">Visiter</a>
+<button onclick="document.getElementById('upvote').submit();" class="button detail-upvote-button">
+  <div class="vote-triangle2" element-id="27"></div> <!-- Triangle visual for upvote -->
+  UPVOTE {{ product.votes_total }}
+</button>
+    </div>
+  </div>
+  <div class="detail-main-image">
+    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid">
+  </div>
+ 
+</div>
+
+<form id="upvote" action="{% url 'upvote' product.id %}" method="POST" style="display: none;">
+  {% csrf_token %}
+  <input type="hidden">
+</form>
+
+<br>
+  <!-- Comments Section -->
+  <div class="row">
+    <div class="col-12">
+      <h3>Commentaires :</h3>
+      <div id="comments">
+        {% for comment in product.comments.all %}
+          <div class="comment mb-2">
+            <strong>{{ comment.user.username }}</strong>
+            <p>{{ comment.text }}</p>
+            <span class="text-muted">{{ comment.created_at }}</span>
+          </div>
+        {% empty %}
+          <p>Pas encore de commentaire.</p>
+        {% endfor %}
+      </div>
+
+      {% if user.is_authenticated %}
+      <div class="mt-4">
+        <h4>Commenter le projet:</h4>
+        <form method="post" action="{% url 'add_comment' product.id %}">
+          {% csrf_token %}
+          <textarea name="comment" class="form-control" rows="3" required></textarea>
+          <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+<!-- Share Project Modal -->
+<div class="modal fade" id="shareProjectModal" tabindex="-1" aria-labelledby="shareProjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareProjectModalLabel">Projet créé avec succès!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ton projet est créé ! Partagez-le pour remonter dans le classement.
+        <!-- Dynamically insert the project URL if possible -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" onclick="copyToClipboard()">Copier l'url</button>
+      </div>
+    </div>
+  </div>
+</div>
+<<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectCreated = urlParams.get('created');
+    
+    if (projectCreated === 'true') {
+      // Trigger confetti
+      confetti();
+  
+      // Show the modal
+      $('#shareProjectModal').modal('show');
+    }
+  });
+  
+  function copyToClipboard() {
+    const currentUrlWithoutQuery = window.location.origin + window.location.pathname;
+    const newUrl = currentUrlWithoutQuery + '?invited=true';
+    navigator.clipboard.writeText(newUrl).then(() => {
+      // This is where you could notify the user that the URL has been copied.
+      console.log('URL copied to clipboard');
+    }, (err) => {
+      console.error('Could not copy URL: ', err);
+    });
+  }
+  </script>
+  
+
+{% endblock %}

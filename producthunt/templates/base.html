@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+  <title>Base page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'open-iconic/font/css/open-iconic-bootstrap.css' %}">
+</head>
+<style>
+  /* Styles de base pour la liste de produits */
+.product-list {
+  padding-left: 0;
+  padding-top: 1rem;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #FFF;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.product-item:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Styles pour l'icône du produit */
+.product-icon {
+  flex: 0 0 auto;
+  width: 50px; /* Ajustez selon votre design */
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* Conteneur pour le titre et la description */
+.product-details {
+  flex-grow: 1;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+.product-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.product-description {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Bouton et compteur de votes */
+.vote-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.vote-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  font-size: 0.875rem;
+  color: #333;
+}
+
+/* Enlevez le style par défaut des liens */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* Styles de l'icône du produit */
+.product-icon {
+  flex: 0 0 auto;
+  width: 64px; /* Taille plus grande que précédemment */
+  height: 64px; /* Hauteur égale à la largeur pour maintenir le ratio */
+  border-radius: 50%;
+  object-fit: cover; /* Pour s'assurer que l'image couvre bien la zone sans être déformée */
+}
+
+/* Styles du bouton de vote pour correspondre à l'image jointe */
+.vote-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vote-button:hover {
+  border-color: #ccc;
+}
+
+/* Triangle représentant le vote */
+.vote-triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #000;
+  margin-bottom: 5px;
+}
+
+/* Nombre de votes */
+.vote-count {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Styles pour le nombre de commentaires */
+.comment-count {
+  font-size: 0.875rem;
+  color: #999;
+  margin-top: 0.5rem; /* Espacement au-dessus du nombre de commentaires */
+}
+.detail-container {
+  max-width: auto; /* or your preferred max width */
+  margin: auto;
+  padding-top: 20px;
+}
+
+
+.detail-header {
+  display: block;
+  align-items: center;
+  position: relative; /* Needed for absolute positioning of buttons */
+}
+
+.detail-logo {
+  flex-shrink: 0; /* Prevent the logo from shrinking */
+}
+
+.detail-logo-img {
+  width: 80px; /* Adjust as needed */
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.detail-text-content {
+  flex-grow: 1; /* Allow the text to take up remaining space */
+}
+
+.detail-title {
+  font-size: 2rem; /* Adjust size as needed */
+  font-weight: bold;
+  margin: 20px 0px 20px 0px;
+}
+
+
+.navbar {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    margin: 0 0 20px 0px;
+}
+.detail-summary {
+  font-size: 1.1rem;
+  margin: 0;
+  word-wrap: break-word; /* This will ensure that long words are broken and wrapped to the next line. */
+  overflow-wrap: break-word; /* This is the standard property for word-wrapping, and it's good practice to include both for maximum compatibility. */
+}
+
+
+.detail-action-buttons {
+  position: absolute; /* Positioned absolutely to the right */
+  right: 0; /* Align to the far right */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Offset the button height */
+}
+
+
+.button1 {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    border: 1px solid #4a4a4a; /* Dark grey border */
+}
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+.btn-primary
+{
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    background-color: #ff6154;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-primary:hover
+{
+    display: inline-block;
+    padding: 10px 20px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    background-color: #ff6154;
+    color: white;
+    cursor: pointer;
+}
+
+.button1:hover {
+    background-color: #f9f9f9; /* Darker shade for hover effect, change as needed */
+    border-color: #363636; /* Darker grey border for hover effect */
+}
+
+
+.detail-visit-button {
+  background: #fff; /* Light gray */
+}
+
+.vote-triangle2 {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid #ffffff; /* The triangle will be white */
+  display: inline-block;
+  vertical-align: middle; /* Centers the triangle vertically relative to the text */
+  margin-right: 5px; /* Spacing between the triangle and the text */
+}
+
+.detail-upvote-button {
+  position: relative; /* Establishes a positioning context for the pseudo-element */
+  padding-left: 30px; /* Provides space for the triangle */
+  color: #ffffff; /* Sets the text color to white */
+  background-color: #ff6154; /* Background color for the button */
+  /* Add additional styling as needed */
+}
+
+.detail-upvote-button:hover .vote-triangle {
+  border-bottom-color: #cccccc; /* Triangle color change on hover, if desired */
+}
+
+
+.detail-main-image {
+  margin-top: 20px;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.detail-body {
+  margin-top: 20px;
+}
+
+/* Style for the 'Ajouter un projet' button */
+.nav-item.nav-link.add-project-btn {
+  color: #ff6154; /* White text color */
+  background-color: #fef6f1; /* Coral orange background color */
+  border-radius: 4px;
+  margin: 10px;
+  padding: 6px 12px; /* Padding for a larger click area */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.nav-item.nav-link.add-project-btn:hover {
+  background-color: #fef6f2; /* Slightly darker orange on hover */
+}
+
+/* Style for the 'Logout' button */
+.nav-item.nav-link.logout-btn {
+  color: black; /* Black text color */
+  margin: 10px;
+  background-color: white; /* White background color */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 4px;
+  padding: 6px 12px; /* Padding for a larger click area */
+  transition: border-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.nav-item.nav-link.logout-btn:hover {
+  border-color: #ccc; /* Slightly darker border on hover */
+}
+
+/* Style for the 'S'inscrire' (Sign Up) button, similar to 'Ajouter un projet' */
+.nav-item.nav-link.sign-up-btn {
+  color: #ff6154; /* Custom color for text */
+  background-color: #fef6f1; /* Light background color */
+  border-radius: 4px;
+  margin: 10px;
+  padding: 6px 12px; /* Padding for a larger click area */
+  transition: all 0.3s; /* Smooth transition for hover effect */
+}
+
+.nav-item.nav-link.sign-up-btn:hover {
+  background-color: #fef6f2; /* Slightly darker on hover */
+  color: #e5554f; /* Slightly darker text color on hover */
+}
+
+/* Style for the 'Se connecter' (Log In) button, similar to 'Logout' */
+.nav-item.nav-link.log-in-btn {
+  color: black; /* Black text color */
+  margin: 10px;
+  background-color: white; /* White background color */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 4px;
+  padding: 6px 12px; /* Padding for a larger click area */
+  transition: all 0.3s; /* Smooth transition for hover effect */
+}
+
+.nav-item.nav-link.log-in-btn:hover {
+  border-color: #ccc; /* Slightly darker border on hover */
+}
+
+
+/* Make sure to test and adjust these styles to match your specific design */
+
+</style>
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'logo.png' %}" height=40 width=40 class="d-inline-block alighn-top" />
+      Business Hunt
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link add-project-btn" href="{% url 'create' %}">
+            <span class="oi oi-plus"></span> Ajouter un projet
+          </a>
+          <a class="nav-item nav-link logout-btn" href="javascript:{document.getElementById('logout').submit()}">
+            Se déconnecter
+          </a>
+          <form id="logout" action="{% url 'logout' %}" method="post" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+          
+
+          {% else %}
+          <a class="nav-item nav-link sign-up-btn" href="{% url 'signup' %}">S'inscrire</a>
+          <a class="nav-item nav-link log-in-btn" href="{% url 'login' %}">Se connecter</a>
+          
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+
+  <footer class="text-muted">
+    <div class="container text-center">
+      <p>Fait avec amour par Kevin Dufraisse | {% now "Y" %} </p>
+      </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
